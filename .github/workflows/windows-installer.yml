@@ -29,7 +29,7 @@ jobs:
 
       - name: Build .NET MAUI Windows Application Installer
         run: |
-          dotnet publish VideoCrypt.Studio.Desktop/VideoCrypt.Studio.Desktop.csproj -f net8.0-windows10.0.19041.0 -c Release `
+          dotnet publish MauiAppPipelines/MauiAppPipelines.csproj -f net8.0-windows10.0.19041.0 -c Release `
             -p:RuntimeIdentifierOverride=win10-x64 `
             -p:WindowsPackageType=None `
             -p:PublishSingleFile=true `
