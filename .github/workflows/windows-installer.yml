@@ -15,7 +15,6 @@ permissions:
 jobs:
   installer:
     runs-on: self-hosted
-
     steps:
       - uses: actions/checkout@v3
 
