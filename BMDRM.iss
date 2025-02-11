@@ -35,8 +35,7 @@ ChangesAssociations=yes
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
-OutputBaseFilename=MAUI App Installer
-SetupIconFile=C:\Users\DELL\Desktop\cdcitest\MauiAppPipelines\Maui.PipelinesApp\bin\Release\net8.0-windows10.0.19041.0\win10-x64\appicon.ico
+OutputBaseFilename=MAUI App Installer 
 SolidCompression=yes
 WizardStyle=modern
 
@@ -47,7 +46,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files] 
-Source: "C:\Users\DELL\Desktop\cdcitest\MauiAppPipelines\Maui.PipelinesApp\bin\Release\net8.0-windows10.0.19041.0\win10-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net8.0-windows10.0.19041.0\win10-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
  
 
 [Registry]
