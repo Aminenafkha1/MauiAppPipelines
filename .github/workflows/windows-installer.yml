@@ -14,8 +14,7 @@ permissions:
 
 jobs:
   installer:
-    runs-on: windows-latest
-
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
 
@@ -39,7 +38,7 @@ jobs:
       - name: Build Installer using Inno Setup
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         with:
-          path: .winbuild/BMDRM.iss
+          path: ./BMDRM.iss
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4.6.0

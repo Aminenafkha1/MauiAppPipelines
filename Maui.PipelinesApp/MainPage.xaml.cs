@@ -1,4 +1,4 @@
-﻿namespace Maui.PipelinesApp;
+namespace Maui.PipelinesApp;
 
 public partial class MainPage : ContentPage
 {
