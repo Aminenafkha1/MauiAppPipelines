@@ -34,6 +34,12 @@ jobs:
             -p:PublishSingleFile=true `
             -p:SelfContained=true
 
+      - name: Debug Paths
+        run: |
+          echo "Current Working Directory:"
+          pwd
+          echo "List of all files and folders:"
+          ls -R
 
       - name: Build Installer using Inno Setup
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
