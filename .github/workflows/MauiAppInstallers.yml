@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-installer
-          path: '**/MAUI.App.Installer.exe'
+          path: '**/*.exe'
 
   macos-installer:
     runs-on: macos-latest
