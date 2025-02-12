@@ -60,10 +60,8 @@ jobs:
 
       - name: Build .NET MAUI macOS Application
         run: |
-          dotnet publish Maui.PipelinesApp/Maui.PipelinesApp.csproj -f net8.0-macos -c Release `
-            -p:RuntimeIdentifierOverride=osx-arm64 `
-            -p:PublishSingleFile=true `
-            -p:SelfContained=true
+          dotnet publish Maui.PipelinesApp/Maui.PipelinesApp.csproj -f net8.0-maccatalyst -c Release -r osx-arm64 --self-contained true
+
 
       - name: Create macOS DMG Installer
         run: |
