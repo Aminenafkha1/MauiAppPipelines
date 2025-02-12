@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.0
         with:
           name: installer-artifact
-          path: '**/*.exe'
+          path: '**/MAUI.App.Installer.exe'  # Only upload the installer file
 
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
@@ -60,6 +60,6 @@ jobs:
           draft: false
           prerelease: false
           generateReleaseNotes: true
-          artifacts: '**/*.exe'
+          artifacts: '**/MAUI.App.Installer.exe'  # Only include the installer in the release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
