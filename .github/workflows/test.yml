@@ -60,14 +60,16 @@ jobs:
 
       - name: Build .NET MAUI macOS Application
         run: |
-          dotnet publish Maui.PipelinesApp/Maui.PipelinesApp.csproj -f net8.0-maccatalyst -c Release -r osx-arm64 --self-contained true
-
+          dotnet publish Maui.PipelinesApp/Maui.PipelinesApp.csproj -f net8.0-maccatalyst -c Release \
+            -p:CodesignKey="" \
+            -p:CodesignProvision="" \
+            -p:CreatePackage=false
 
       - name: Create macOS DMG Installer
         run: |
           mkdir -p output
-          hdiutil create -volname "BMDRM Installer" -srcfolder ./Maui.PipelinesApp/bin/Release/net8.0-macos/publish/ -ov -format UDZO output/BMDRM.dmg
-
+          hdiutil create -volname "BMDRM Installer" -srcfolder ./Maui.PipelinesApp/bin/Release/net8.0-maccatalyst/publish/ -ov -format UDZO output/BMDRM.dmg
+    
       - name: Upload macOS Installer
         uses: actions/upload-artifact@v4
         with:
