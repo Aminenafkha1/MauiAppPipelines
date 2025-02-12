@@ -1,0 +1,99 @@
+name: Build .NET MAUI Installers
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+  packages: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Build .NET MAUI Windows Application Installer
+        run: |
+          dotnet publish Maui.PipelinesApp/Maui.PipelinesApp.csproj -f net8.0-windows10.0.19041.0 -c Release `
+            -p:RuntimeIdentifierOverride=win10-x64 `
+            -p:WindowsPackageType=None `
+            -p:PublishSingleFile=true `
+            -p:SelfContained=true
+
+      - name: Build Installer using Inno Setup
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: ./BMDRM.iss
+
+      - name: Upload Windows Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: '**/MAUI.App.Installer.exe'
+
+  macos-installer:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Build .NET MAUI macOS Application
+        run: |
+          dotnet publish Maui.PipelinesApp/Maui.PipelinesApp.csproj -f net8.0-macos -c Release `
+            -p:RuntimeIdentifierOverride=osx-arm64 `
+            -p:PublishSingleFile=true `
+            -p:SelfContained=true
+
+      - name: Create macOS DMG Installer
+        run: |
+          mkdir -p output
+          hdiutil create -volname "BMDRM Installer" -srcfolder ./Maui.PipelinesApp/bin/Release/net8.0-macos/publish/ -ov -format UDZO output/BMDRM.dmg
+
+      - name: Upload macOS Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-installer
+          path: output/BMDRM.dmg
+
+  release:
+    needs: [windows-installer, macos-installer]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1.13.0
+        with:
+          tag: v${{ github.sha }}
+          name: Release v${{ github.sha }}
+          draft: false
+          prerelease: false
+          generateReleaseNotes: true
+          artifacts: |
+            artifacts/windows-installer/**
+            artifacts/macos-installer/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
