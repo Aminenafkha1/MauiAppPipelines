@@ -68,13 +68,13 @@ jobs:
       - name: Create macOS DMG Installer
         run: |
           mkdir -p output
-          hdiutil create -volname "BMDRM Installer" -srcfolder ./Maui.PipelinesApp/bin/Release/net8.0-maccatalyst/ -ov -format UDZO output/BMDRM.dmg
+          hdiutil create -volname "Maui Installer" -srcfolder ./Maui.PipelinesApp/bin/Release/net8.0-maccatalyst/ -ov -format UDZO output/Maui.dmg
     
       - name: Upload macOS Installer
         uses: actions/upload-artifact@v4
         with:
           name: macos-installer
-          path: output/BMDRM.dmg
+          path: output/Maui.dmg
 
   release:
     needs: [windows-installer, macos-installer]
