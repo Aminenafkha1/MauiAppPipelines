@@ -65,17 +65,27 @@ jobs:
             -p:CodesignProvision="" \
             -p:CreatePackage=false
 
-      - name: Create macOS DMG Installer
+      - name: Move .app to Output Directory
         run: |
           mkdir -p output
-          hdiutil create -volname "Maui Installer" -srcfolder ./Maui.PipelinesApp/bin/Release/net8.0-maccatalyst/ -ov -format UDZO output/Maui.dmg
-    
+          APP_NAME="Maui.PipelinesApp.app"
+          APP_PATH="Maui.PipelinesApp/bin/Release/net8.0-maccatalyst/$APP_NAME"
+          mv "$APP_PATH" output/
+
+      - name: Create macOS PKG Installer from .app
+        run: |
+          pkgbuild --root output/Maui.PipelinesApp.app \
+                   --identifier com.bmdrm.maui \
+                   --version 1.0.0 \
+                   --install-location /Applications \
+                   output/Maui.pkg
+
       - name: Upload macOS Installer
         uses: actions/upload-artifact@v4
         with:
           name: macos-installer
-          path: output/Maui.dmg
-
+          path: output/Maui.pkg
+          
   release:
     needs: [windows-installer, macos-installer]
     runs-on: ubuntu-latest
