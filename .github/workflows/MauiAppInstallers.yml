@@ -97,8 +97,8 @@ jobs:
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1.13.0
         with:
-          tag: v${{ github.sha }}
-          name: Release v${{ github.sha }}
+          tag: v${{ github.run_number }}-${{ github.sha }}
+          name: Release v${{ github.run_number }}-${{ github.sha }}
           draft: false
           prerelease: false
           generateReleaseNotes: true
